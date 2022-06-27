@@ -1,0 +1,42 @@
+<h2>Sign In</h2>
+<form
+  class="signin-form"
+  [formGroup]="signInForm"
+  (ngSubmit)="loginEmailAndPassword()"
+>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      #email
+      matInput
+      formControlName="email"
+      email
+      required
+      placeholder="Ex. account@example.com">
+    <mat-hint>input email.</mat-hint>
+    <mat-error *ngIf="signInForm.controls.email.errors?.['email'] && !signInForm.controls.email.errors?.['required']">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="signInForm.controls.email.errors?.['required']">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input
+      type="password"
+      matInput
+      formControlName="password"
+      required
+      placeholder="Please enter your password.">
+    <mat-hint>input password.</mat-hint>
+    <mat-error *ngIf="signInForm?.controls?.['password']?.errors?.['required'] || false">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button type="submit" mat-flat-button [disabled]="isLoginLoading || signInForm.invalid" [class.spinner]="isLoginLoading" color="primary">Login</button>
+
+  <button type="button" mat-flat-button routerLink="/signup">Sign up</button>
+</form>

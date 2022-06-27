@@ -1,0 +1,68 @@
+<h2>Sign Up</h2>
+<form
+  class="signup-form"
+  [formGroup]="signUpForm"
+  (ngSubmit)="signUp()"
+>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      #email
+      matInput
+      formControlName="email"
+      email
+      required
+      placeholder="Ex. account@example.com">
+    <mat-hint>input email.</mat-hint>
+    <mat-error *ngIf="signUpForm.controls.email.errors?.['email'] && !signUpForm.controls.email.errors?.['required']">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="signUpForm.controls.email.errors?.['required']">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input
+      type="password"
+      matInput
+      formControlName="password"
+      required
+      [minlength]="passwordMinLength"
+      placeholder="Please enter your password.">
+    <mat-hint>input password.</mat-hint>
+    <mat-error *ngIf="signUpForm.controls.password.errors?.['required'] || false">
+      Password is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="signUpForm.controls.password.errors?.['minlength'] || false">
+      The minimum length is <strong>{{ passwordMinLength }}</strong> characters.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password Repeat</mat-label>
+    <input
+      type="password"
+      matInput
+      formControlName="passwordRepeat"
+      required
+      [errorStateMatcher]="matcher"
+      [minlength]="passwordMinLength"
+      placeholder="Please enter your password again.">
+    <mat-hint>input password again.</mat-hint>
+    <mat-error *ngIf="signUpForm.controls.passwordRepeat.errors?.['required'] || false">
+      Password is <strong>required</strong>
+    </mat-error>
+    <mat-error *ngIf="signUpForm.controls.passwordRepeat.errors?.['minlength'] || false">
+      The minimum length is <strong>{{ passwordMinLength }}</strong> characters.
+    </mat-error>
+    <mat-error *ngIf="signUpForm.errors?.['passwordStrength'] || false">
+      Passwords do not match.
+    </mat-error>
+  </mat-form-field>
+
+
+  <button type="submit" mat-flat-button [disabled]="isLoading || signUpForm.invalid" [class.spinner]="isLoading" color="primary">Sign up</button>
+</form>
