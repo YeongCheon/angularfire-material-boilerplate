@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+h1, h2 {
+  text-align:center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+
+  mat-form-field, &>button {
+    margin-bottom: 10px;
+    align-self: stretch;
+  }
+}

@@ -31,6 +31,17 @@ const routes: Routes = [
       authGuardPipe: redirectLoggedInToRoot,
     },
   },
+  {
+    path: 'findacount',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./atomic/pages/find-account/find-account.module').then(
+        (m) => m.FindAccountModule
+      ),
+    data: {
+      authGuardPipe: redirectLoggedInToRoot,
+    },
+  },
 ];
 
 @NgModule({

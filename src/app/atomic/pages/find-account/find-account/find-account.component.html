@@ -1,0 +1,41 @@
+<h2>Find Account</h2>
+<form
+  [formGroup]="findAccountForm"
+  (ngSubmit)="findAccount()"
+>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      #email
+      matInput
+      formControlName="email"
+      email
+      required
+      placeholder="Ex. account@example.com">
+    <mat-hint>input email.</mat-hint>
+    <mat-error *ngIf="findAccountForm.controls.email.errors?.['email'] && !findAccountForm.controls.email.errors?.['required']">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="findAccountForm.controls.email.errors?.['required']">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button type="submit" mat-flat-button [disabled]="isLoading || findAccountForm.invalid" [class.spinner]="isLoading" color="primary">Find Account</button>
+</form>
+
+
+<ng-template #findPasswordDialogTemplate>
+  <h1 mat-dialog-title>Found Account</h1>
+
+  <div mat-dialog-content>
+    <p>found account {{findAccountForm.controls.email.value}}</p>
+    <p>send an email to find a password?</p>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" cdkFocusInitial [mat-dialog-close]="true">Ok</button>
+    <button mat-button [mat-dialog-close]="false">No Thanks</button>
+  </div>
+</ng-template>
