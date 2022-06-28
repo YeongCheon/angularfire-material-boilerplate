@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -79,7 +80,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     @Optional() private auth: Auth,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
-    private readonly _snackbar: MatSnackBar
+    private readonly _snackbar: MatSnackBar,
+    private readonly cdRef: ChangeDetectorRef
   ) {
     this.signInForm = this.formBuilder.nonNullable.group({
       email: new FormControl<string>('', {
@@ -130,6 +132,7 @@ export class SignInComponent implements OnInit, OnDestroy {
         })
         .finally(() => {
           this.isLoginLoading = false;
+          this.cdRef.detectChanges();
         });
     });
   }
