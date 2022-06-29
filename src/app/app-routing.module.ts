@@ -42,6 +42,18 @@ const routes: Routes = [
       authGuardPipe: redirectLoggedInToRoot,
     },
   },
+  {
+    path: '__',
+    children: [
+      {
+        path: 'auth/action',
+        loadChildren: () =>
+          import('./atomic/pages/reset-password/reset-password.module').then(
+            (m) => m.ResetPasswordModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({

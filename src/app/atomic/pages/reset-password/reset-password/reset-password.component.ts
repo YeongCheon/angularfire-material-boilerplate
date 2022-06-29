@@ -1,5 +1,6 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { FirebaseError } from '@angular/fire/app';
+import { Auth, confirmPasswordReset } from '@angular/fire/auth';
 import {
   AbstractControl,
   FormControl,
@@ -12,7 +13,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -28,35 +29,34 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-interface SignUpForm {
-  email: FormControl<string>;
+interface ResetPasswordForm {
   password: FormControl<string>;
   passwordRepeat: FormControl<string>;
 }
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
   isLoading = false;
-  signUpForm: FormGroup<SignUpForm>;
+  resetPasswordForm: FormGroup<ResetPasswordForm>;
   passwordMinLength = 7;
 
   matcher = new MyErrorStateMatcher();
+
+  code?: string;
 
   constructor(
     @Optional() private readonly auth: Auth,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly _snackbar: MatSnackBar
   ) {
-    this.signUpForm = this.formBuilder.nonNullable.group(
+    this.resetPasswordForm = this.formBuilder.nonNullable.group(
       {
-        email: new FormControl<string>('', {
-          nonNullable: true,
-        }),
         password: new FormControl<string>('', {
           nonNullable: true,
         }),
@@ -70,25 +70,30 @@ export class SignUpComponent implements OnInit {
     );
   }
 
-  password(formGroup: FormGroup<SignUpForm>): boolean {
-    return (
-      formGroup.controls.password.value ==
-      formGroup.controls.passwordRepeat.value
-    );
+  ngOnInit(): void {
+    this.code = this.route.snapshot.queryParams['oobCode'];
   }
 
-  ngOnInit(): void { }
+  resetPassword(): void {
+    const password = this.resetPasswordForm.controls.password.value;
+    if (!this.code) {
+      this._snackbar.open('invalid code', 'close', { duration: 3000 });
+      return;
+    }
 
-  signUp(): void {
     this.isLoading = true;
-    createUserWithEmailAndPassword(
-      this.auth,
-      this.signUpForm.controls.email.value,
-      this.signUpForm.controls.password.value
-    )
-      .then((res) => {
-        this._snackbar.open('sign up complete', 'close');
-        this.router.navigateByUrl('/');
+
+    confirmPasswordReset(this.auth, this.code, password)
+      .then(() => {
+        this._snackbar.open('reset password complete', 'close', {
+          duration: 3000,
+        });
+
+        this.router.navigateByUrl('/signin');
+      })
+      .catch((err: FirebaseError) => {
+        this._snackbar.open(err.message, 'close', { duration: 3000 });
+        console.error(err);
       })
       .finally(() => {
         this.isLoading = false;
