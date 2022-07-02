@@ -3,10 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnDestroy,
-  OnInit,
   Optional,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -14,27 +12,25 @@ import {
   FormGroupDirective,
   NgForm,
   FormControl,
-  FormGroup,
+  FormGroup
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import {
   Auth,
   signInWithEmailAndPassword,
-  signInWithRedirect,
   GoogleAuthProvider,
   AuthError,
-  AuthErrorCodes,
+  AuthErrorCodes
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {
   browserLocalPersistence,
   FacebookAuthProvider,
   setPersistence,
-  TwitterAuthProvider,
+  TwitterAuthProvider
 } from '@firebase/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
-import { take } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 interface SignInFormGroup {
   email: FormControl<string>;
@@ -61,9 +57,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SignInComponent implements OnInit, OnDestroy {
+export class SignInComponent {
   googleProvider = new GoogleAuthProvider();
   facebookProvider = new FacebookAuthProvider();
   twitterProvider = new TwitterAuthProvider();
@@ -85,27 +81,21 @@ export class SignInComponent implements OnInit, OnDestroy {
   ) {
     this.signInForm = this.formBuilder.nonNullable.group({
       email: new FormControl<string>('', {
-        nonNullable: true,
+        nonNullable: true
       }),
       password: new FormControl<string>('', {
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
-  ngOnInit(): void { }
-
-  ngOnDestroy(): void { }
-
-  loginEmailAndPassword() {
+  loginEmailAndPassword(): void {
     if (this.signInForm.invalid) {
       return;
     }
 
     const email = this.signInForm.controls.email.value;
     const password = this.signInForm.controls.password.value;
-    // const email = this.signInForm.get('email')?.value;
-    // const password = this.signInForm.get('password')?.value;
 
     setPersistence(this.auth, browserLocalPersistence).then(() => {
       this.isLoginLoading = true;
@@ -120,7 +110,7 @@ export class SignInComponent implements OnInit, OnDestroy {
               this._snackbar
                 .open('id or password wrong.', 'OK')
                 .afterDismissed()
-                .pipe(untilDestroyed(this), take(1))
+                .pipe(untilDestroyed(this))
                 .subscribe(() => {
                   this.emailElement.nativeElement.focus();
                 });
@@ -135,18 +125,5 @@ export class SignInComponent implements OnInit, OnDestroy {
           this.cdRef.detectChanges();
         });
     });
-  }
-
-  socialLogin(
-    provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider
-  ): void {
-    signInWithRedirect(this.auth, provider);
-    // signInWithPopup(this.auth, provider)
-    //   .catch((err) => {
-    //     console.error(err);
-    //   })
-    //   .then((res) => {
-    //     this.router.navigate(['/', 'images']);
-    //   });
   }
 }

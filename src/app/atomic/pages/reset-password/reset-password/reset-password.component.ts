@@ -9,7 +9,7 @@ import {
   NgForm,
   UntypedFormBuilder,
   ValidationErrors,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -37,7 +37,7 @@ interface ResetPasswordForm {
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss'],
+  styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
   isLoading = false;
@@ -58,14 +58,14 @@ export class ResetPasswordComponent implements OnInit {
     this.resetPasswordForm = this.formBuilder.nonNullable.group(
       {
         password: new FormControl<string>('', {
-          nonNullable: true,
+          nonNullable: true
         }),
         passwordRepeat: new FormControl<string>('', {
-          nonNullable: true,
-        }),
+          nonNullable: true
+        })
       },
       {
-        validators: [this.getPasswordValidator()],
+        validators: [this.getPasswordValidator()]
       }
     );
   }
@@ -86,7 +86,7 @@ export class ResetPasswordComponent implements OnInit {
     confirmPasswordReset(this.auth, this.code, password)
       .then(() => {
         this._snackbar.open('reset password complete', 'close', {
-          duration: 3000,
+          duration: 3000
         });
 
         this.router.navigateByUrl('/signin');

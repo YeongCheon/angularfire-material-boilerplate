@@ -1,14 +1,8 @@
-import {
-  Component,
-  OnInit,
-  Optional,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, Optional, TemplateRef, ViewChild } from '@angular/core';
 import {
   Auth,
   fetchSignInMethodsForEmail,
-  sendPasswordResetEmail,
+  sendPasswordResetEmail
 } from '@angular/fire/auth';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,11 +17,11 @@ interface FindAccount {
 @Component({
   selector: 'app-find-account',
   templateUrl: './find-account.component.html',
-  styleUrls: ['./find-account.component.scss'],
+  styleUrls: ['./find-account.component.scss']
 })
-export class FindAccountComponent implements OnInit {
+export class FindAccountComponent {
   @ViewChild('findPasswordDialogTemplate')
-  dialogTemplate!: TemplateRef<any>;
+  dialogTemplate!: TemplateRef<unknown>;
 
   isLoading = false;
   findAccountForm: FormGroup<FindAccount>;
@@ -41,12 +35,10 @@ export class FindAccountComponent implements OnInit {
   ) {
     this.findAccountForm = this.fb.nonNullable.group({
       email: new FormControl<string>('', {
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
-
-  ngOnInit(): void { }
 
   findAccount(): void {
     const email = this.findAccountForm.controls.email.value;
@@ -55,13 +47,13 @@ export class FindAccountComponent implements OnInit {
         this.showFindPasswordDialog(email);
       } else {
         this._snackbar.open('account not found', 'close', {
-          duration: 3000,
+          duration: 3000
         });
       }
     });
   }
 
-  private showFindPasswordDialog(email: string) {
+  private showFindPasswordDialog(email: string): void {
     this.dialog
       .open(this.dialogTemplate)
       .afterClosed()
@@ -73,9 +65,5 @@ export class FindAccountComponent implements OnInit {
           });
         }
       });
-  }
-
-  onNoClick(): void {
-    console.debug('on no click');
   }
 }

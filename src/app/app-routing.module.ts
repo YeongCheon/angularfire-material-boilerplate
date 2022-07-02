@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   AuthGuard,
-  redirectUnauthorizedTo,
   redirectLoggedInTo,
+  AuthPipe
 } from '@angular/fire/auth-guard';
 
-const redirectLoggedInToRoot = () => redirectLoggedInTo(['/', '']);
+const redirectLoggedInToRoot = (): AuthPipe => redirectLoggedInTo(['/', '']);
 
 const routes: Routes = [
   {
@@ -17,8 +17,8 @@ const routes: Routes = [
         (m) => m.SignInModule
       ),
     data: {
-      authGuardPipe: redirectLoggedInToRoot,
-    },
+      authGuardPipe: redirectLoggedInToRoot
+    }
   },
   {
     path: 'signup',
@@ -28,8 +28,8 @@ const routes: Routes = [
         (m) => m.SignUpModule
       ),
     data: {
-      authGuardPipe: redirectLoggedInToRoot,
-    },
+      authGuardPipe: redirectLoggedInToRoot
+    }
   },
   {
     path: 'findacount',
@@ -39,8 +39,8 @@ const routes: Routes = [
         (m) => m.FindAccountModule
       ),
     data: {
-      authGuardPipe: redirectLoggedInToRoot,
-    },
+      authGuardPipe: redirectLoggedInToRoot
+    }
   },
   {
     path: '__',
@@ -50,14 +50,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('./atomic/pages/reset-password/reset-password.module').then(
             (m) => m.ResetPasswordModule
-          ),
-      },
-    ],
-  },
+          )
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

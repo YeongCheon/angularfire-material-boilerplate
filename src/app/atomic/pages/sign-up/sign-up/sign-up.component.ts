@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import {
   AbstractControl,
@@ -8,7 +8,7 @@ import {
   NgForm,
   UntypedFormBuilder,
   ValidationErrors,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -37,9 +37,9 @@ interface SignUpForm {
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
   isLoading = false;
   signUpForm: FormGroup<SignUpForm>;
   passwordMinLength = 7;
@@ -55,17 +55,17 @@ export class SignUpComponent implements OnInit {
     this.signUpForm = this.formBuilder.nonNullable.group(
       {
         email: new FormControl<string>('', {
-          nonNullable: true,
+          nonNullable: true
         }),
         password: new FormControl<string>('', {
-          nonNullable: true,
+          nonNullable: true
         }),
         passwordRepeat: new FormControl<string>('', {
-          nonNullable: true,
-        }),
+          nonNullable: true
+        })
       },
       {
-        validators: [this.getPasswordValidator()],
+        validators: [this.getPasswordValidator()]
       }
     );
   }
@@ -76,8 +76,6 @@ export class SignUpComponent implements OnInit {
       formGroup.controls.passwordRepeat.value
     );
   }
-
-  ngOnInit(): void { }
 
   signUp(): void {
     this.isLoading = true;
