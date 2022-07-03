@@ -1,0 +1,64 @@
+<form
+  [formGroup]="accountForm"
+  (ngSubmit)="!(isLoading || accountForm.invalid) && !isUploadingPhoto && updateProfile()"
+>
+  <h1>Account</h1>
+
+  <button
+    *ngIf="!accountForm.controls.photoURL.value && !isUploadingPhoto"
+    type="button"
+    class="image-upload-button"
+    (click)="fileInput.click()"
+    (appFileDragDrop)="upload($event)"
+  >
+    <div>
+      <mat-icon class="upload-image-icon" aria-hidden="false" aria-label="upload image">add_photo_alternate</mat-icon>
+      Choose Image
+    </div>
+  </button>
+
+  <input #fileInput (change)="onChangeInputFile($event)" type="file" accept="image/*" style="display:none" />
+
+  <ng-container *ngIf="!accountForm.controls.photoURL.value; else uploadResult">
+    <div class="upload-progress-container" *ngIf="isUploadingPhoto">
+      <mat-progress-spinner
+        mode="determinate"
+        [value]="photoUploadPercent | async"
+      ></mat-progress-spinner>
+      <div>{{(photoUploadPercent | async | number) ?? 0}}%</div>
+    </div>
+  </ng-container>
+
+  <input type="hidden" #imagePath/>
+
+  <mat-form-field appearance="fill">
+    <mat-label>DisplayName</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="displayName"
+      required
+      placeholder="Please enter a name.">
+    <mat-hint>input name.</mat-hint>
+    <mat-error *ngIf="accountForm.controls.displayName.errors?.['required']">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    type="submit"
+    mat-flat-button
+    [disabled]="isLoading || accountForm.invalid || isUploadingPhoto" [class.spinner]="isLoading" color="primary">Update Profile</button>
+</form>
+
+
+<ng-template #uploadResult>
+  <div class="image-container">
+    <mat-icon (click)="deleteImage()" class="upload-image-icon" aria-hidden="false" aria-label="upload cancel image">cancel</mat-icon>
+    <img
+      #uploadedImage
+      class="uploaded-image"
+      src="{{ accountForm.controls.photoURL.value }}"
+    />
+  </div>
+</ng-template>
