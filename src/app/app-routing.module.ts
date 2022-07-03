@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   AuthGuard,
   redirectLoggedInTo,
+  redirectUnauthorizedTo,
   AuthPipe
 } from '@angular/fire/auth-guard';
 
 const redirectLoggedInToRoot = (): AuthPipe => redirectLoggedInTo(['/', '']);
+const redirectUnauthorizedToSignin = (): AuthPipe =>
+  redirectUnauthorizedTo(['/signin', '']);
 
 const routes: Routes = [
   {
@@ -40,6 +43,17 @@ const routes: Routes = [
       ),
     data: {
       authGuardPipe: redirectLoggedInToRoot
+    }
+  },
+  {
+    path: 'account',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./atomic/pages/account/account.module').then(
+        (m) => m.AccountModule
+      ),
+    data: {
+      authGuardPipe: redirectUnauthorizedToSignin
     }
   },
   {
