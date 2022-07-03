@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import {
   AbstractControl,
@@ -37,7 +37,8 @@ interface SignUpForm {
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent {
   isLoading = false;

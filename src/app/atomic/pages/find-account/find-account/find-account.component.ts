@@ -1,4 +1,10 @@
-import { Component, Optional, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Optional,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {
   Auth,
   fetchSignInMethodsForEmail,
@@ -17,7 +23,8 @@ interface FindAccount {
 @Component({
   selector: 'app-find-account',
   templateUrl: './find-account.component.html',
-  styleUrls: ['./find-account.component.scss']
+  styleUrls: ['./find-account.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FindAccountComponent {
   @ViewChild('findPasswordDialogTemplate')

@@ -1,4 +1,9 @@
-import { Component, OnInit, Optional } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional
+} from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { Auth, confirmPasswordReset } from '@angular/fire/auth';
 import {
@@ -37,7 +42,8 @@ interface ResetPasswordForm {
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  styleUrls: ['./reset-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResetPasswordComponent implements OnInit {
   isLoading = false;
