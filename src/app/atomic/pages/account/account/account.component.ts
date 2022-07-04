@@ -22,10 +22,12 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subject } from 'rxjs';
+import { ChangePasswordComponent } from 'src/app/atomic/templates/change-password/change-password/change-password.component';
 import { environment } from 'src/environments/environment';
 
 interface Account {
@@ -53,7 +55,8 @@ export class AccountComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly snackbar: MatSnackBar,
     private readonly router: Router,
-    private readonly cdRef: ChangeDetectorRef
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly dialog: MatDialog
   ) {
     this.accountForm = this.fb.group({
       displayName: new FormControl<string | null>('', {
@@ -128,18 +131,26 @@ export class AccountComponent implements OnInit {
       });
   }
 
-  deleteImage(): void {
-    const url = this.accountForm.controls.photoURL.value!;
+  clearImage(url: string): void {
+    if (this.auth.currentUser?.photoURL === url) {
+      this.accountForm.controls.photoURL.setValue(null);
+      return;
+    }
 
+    this.deleteImage(url);
+  }
+
+  deleteImage(url: string, isClearFormFiled = true): void {
     const fileRef = ref(
       getStorage(getApp(), environment.firebase.storageBucket),
       url
     );
 
-    this.accountForm.controls.photoURL.setValue(null);
-
     deleteObject(fileRef).then(() => {
-      this.accountForm.controls.photoURL.setValue(null);
+      if (isClearFormFiled) {
+        this.accountForm.controls.photoURL.setValue(null);
+      }
+
       this.cdRef.detectChanges();
     });
   }
@@ -148,11 +159,24 @@ export class AccountComponent implements OnInit {
     const displayName = this.accountForm.controls.displayName.value;
     const photoURL = this.accountForm.controls.photoURL.value;
 
+    const oldPhotoUrl = this.auth.currentUser!.photoURL;
+
+    const isChangedPhoto = !!oldPhotoUrl && oldPhotoUrl !== photoURL;
+    if (isChangedPhoto) {
+      this.deleteImage(oldPhotoUrl, false);
+    }
+
     updateProfile(this.auth.currentUser!, {
       displayName: displayName ?? '',
       photoURL: photoURL ?? ''
     }).then(() => {
       this.snackbar.open('update complete', 'close', { duration: 3000 });
+    });
+  }
+
+  showChangePasswordDialog(): void {
+    this.dialog.open(ChangePasswordComponent, {
+      width: '300px'
     });
   }
 }

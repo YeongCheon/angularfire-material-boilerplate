@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PhoneNumberInputModule } from '../../atoms/phone-number-input/phone-number-input.module';
 import { FileDragDropModule } from 'src/app/directives/file-drag-drop/file-drag-drop.module';
+import { ChangePasswordModule } from '../../templates/change-password/change-password.module';
 
 @NgModule({
   declarations: [AccountComponent],
@@ -24,6 +25,7 @@ import { FileDragDropModule } from 'src/app/directives/file-drag-drop/file-drag-
     RouterModule,
     PhoneNumberInputModule,
     FileDragDropModule,
+    ChangePasswordModule,
 
     MatFormFieldModule,
     MatInputModule,
@@ -31,6 +33,7 @@ import { FileDragDropModule } from 'src/app/directives/file-drag-drop/file-drag-
     MatSnackBarModule,
     MatDialogModule,
     MatIconModule,
+    MatDialogModule,
     MatProgressSpinnerModule
   ]
 })

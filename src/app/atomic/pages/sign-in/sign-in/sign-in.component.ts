@@ -31,25 +31,11 @@ import {
 } from '@firebase/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MyErrorStateMatcher } from 'src/app/util/password-error-state-matcher';
 
 interface SignInFormGroup {
   email: FormControl<string>;
   password: FormControl<string>;
-}
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: UntypedFormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
 }
 
 @UntilDestroy({ checkProperties: true })
@@ -101,7 +87,7 @@ export class SignInComponent {
       this.isLoginLoading = true;
       signInWithEmailAndPassword(this.auth, email, password)
         .then((res) => {
-          this.router.navigate(['/', 'images']);
+          this.router.navigate(['/']);
         })
         .catch((err: AuthError) => {
           switch (err.code) {

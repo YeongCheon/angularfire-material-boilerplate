@@ -46,15 +46,23 @@
   </mat-form-field>
 
   <button
+    type="button"
+    mat-flat-button
+    [class.spinner]="isLoading"
+    (click)="showChangePasswordDialog()"
+  >Change Password</button>
+
+  <button
     type="submit"
     mat-flat-button
+    color="primary"
     [disabled]="isLoading || accountForm.invalid || isUploadingPhoto" [class.spinner]="isLoading" color="primary">Update Profile</button>
 </form>
 
 
 <ng-template #uploadResult>
   <div class="image-container">
-    <mat-icon (click)="deleteImage()" class="upload-image-icon" aria-hidden="false" aria-label="upload cancel image">cancel</mat-icon>
+    <mat-icon (click)="clearImage(accountForm.controls.photoURL.value!)" class="upload-image-icon" aria-hidden="false" aria-label="upload cancel image">cancel</mat-icon>
     <img
       #uploadedImage
       class="uploaded-image"
