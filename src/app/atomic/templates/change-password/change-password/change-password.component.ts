@@ -108,6 +108,10 @@ export class ChangePasswordComponent {
       });
   }
 
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
   private getPasswordValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = control.get('newPassword')!.value;
