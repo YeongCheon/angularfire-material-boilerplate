@@ -1,0 +1,14 @@
+<h1>Home</h1>
+
+<div class="button-container" *ngIf="user; else signoutTemplate" >
+  <button mat-flat-button routerLink="/account">Account</button>
+  <button mat-flat-button (click)="signout()">Logout</button>
+</div>
+
+<ng-template #signoutTemplate>
+  <div class="button-container">
+    <button mat-flat-button routerLink="/findaccount">Find Account</button>
+    <button mat-flat-button routerLink="/signin">Sign In</button>
+    <button mat-flat-button routerLink="/signup">Sign Up</button>
+  </div>
+</ng-template>

@@ -13,6 +13,12 @@ const redirectUnauthorizedToSignin = (): AuthPipe =>
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadChildren: () =>
+      import('./atomic/pages/home/home.module').then((m) => m.HomeModule)
+  },
+  {
     path: 'signin',
     canActivate: [AuthGuard],
     loadChildren: () =>
@@ -35,7 +41,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'findacount',
+    path: 'findaccount',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./atomic/pages/find-account/find-account.module').then(
