@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 import { getApp } from '@angular/fire/app';
 import { Auth, updateProfile } from '@angular/fire/auth';
@@ -14,13 +14,13 @@ import {
   percentage,
   ref,
   StorageError,
-  uploadBytesResumable
+  uploadBytesResumable,
 } from '@angular/fire/storage';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -42,7 +42,7 @@ interface Account {
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountComponent implements OnInit {
   isLoading = false;
@@ -60,9 +60,9 @@ export class AccountComponent implements OnInit {
   ) {
     this.accountForm = this.fb.group({
       displayName: new FormControl<string | null>('', {
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
-      photoURL: new FormControl<string | null>('', {})
+      photoURL: new FormControl<string | null>('', {}),
       // phoneNumber: new FormControl<Tel | null>(new Tel('', '', ''))
     });
   }
@@ -90,8 +90,9 @@ export class AccountComponent implements OnInit {
 
     const currentUser = this.auth.currentUser;
 
-    const filePath = `u/${currentUser?.uid}/images/${new Date().getTime()}_${file.name
-      }`;
+    const filePath = `u/${currentUser?.uid}/images/${new Date().getTime()}_${
+      file.name
+    }`;
 
     this.isUploadingPhoto = true;
 
@@ -127,7 +128,7 @@ export class AccountComponent implements OnInit {
 
           this.cdRef.detectChanges();
           this.photoUploadPercent.complete();
-        }
+        },
       });
   }
 
@@ -168,7 +169,7 @@ export class AccountComponent implements OnInit {
 
     updateProfile(this.auth.currentUser!, {
       displayName: displayName ?? '',
-      photoURL: photoURL ?? ''
+      photoURL: photoURL ?? '',
     }).then(() => {
       this.snackbar.open('update complete', 'close', { duration: 3000 });
     });
@@ -176,7 +177,7 @@ export class AccountComponent implements OnInit {
 
   showChangePasswordDialog(): void {
     this.dialog.open(ChangePasswordComponent, {
-      width: '300px'
+      width: '300px',
     });
   }
 }

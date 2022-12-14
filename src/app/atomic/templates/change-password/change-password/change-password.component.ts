@@ -2,14 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Optional
+  Optional,
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import {
   Auth,
   EmailAuthProvider,
   reauthenticateWithCredential,
-  updatePassword
+  updatePassword,
 } from '@angular/fire/auth';
 import {
   AbstractControl,
@@ -18,7 +18,7 @@ import {
   FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -34,7 +34,7 @@ interface ChangePasswordForm {
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePasswordComponent {
   isLoading = false;
@@ -56,25 +56,25 @@ export class ChangePasswordComponent {
       {
         currentPassword: new FormControl('', {
           nonNullable: true,
-          validators: [Validators.required]
+          validators: [Validators.required],
         }),
         newPassword: new FormControl('', {
           nonNullable: true,
           validators: [
             Validators.required,
-            Validators.minLength(this.passwordMinLength)
-          ]
+            Validators.minLength(this.passwordMinLength),
+          ],
         }),
         newPasswordRepeat: new FormControl('', {
           nonNullable: true,
           validators: [
             Validators.required,
-            Validators.minLength(this.passwordMinLength)
-          ]
-        })
+            Validators.minLength(this.passwordMinLength),
+          ],
+        }),
       },
       {
-        validators: [this.getPasswordValidator()]
+        validators: [this.getPasswordValidator()],
       }
     );
   }
@@ -83,8 +83,8 @@ export class ChangePasswordComponent {
     this.isLoading = true;
 
     const email = this.auth.currentUser!.email!;
-    const currentPassword = this.changePasswordForm.controls.currentPassword
-      .value;
+    const currentPassword =
+      this.changePasswordForm.controls.currentPassword.value;
     const newPassword = this.changePasswordForm.controls.newPassword.value;
 
     const credential = EmailAuthProvider.credential(email, currentPassword);
@@ -94,7 +94,7 @@ export class ChangePasswordComponent {
       })
       .then(() => {
         this.snackbar.open('password update complete', 'close', {
-          duration: 3000
+          duration: 3000,
         });
 
         this.dialogRef.close();

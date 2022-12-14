@@ -11,19 +11,19 @@ import {
   OnDestroy,
   Optional,
   Self,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
   FormBuilder,
   NgControl,
-  Validators
+  Validators,
 } from '@angular/forms';
 import {
   MatFormField,
   MatFormFieldControl,
-  MAT_FORM_FIELD
+  MAT_FORM_FIELD,
 } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 
@@ -66,11 +66,12 @@ export class Tel {
   styleUrls: ['./phone-number-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: MatFormFieldControl, useExisting: PhoneNumberInputComponent }
-  ]
+    { provide: MatFormFieldControl, useExisting: PhoneNumberInputComponent },
+  ],
 })
 export class PhoneNumberInputComponent
-  implements ControlValueAccessor, MatFormFieldControl<Tel>, OnDestroy {
+  implements ControlValueAccessor, MatFormFieldControl<Tel>, OnDestroy
+{
   static nextId = 0;
   @ViewChild('area') areaInput?: HTMLInputElement;
   @ViewChild('exchange') exchangeInput?: HTMLInputElement;
@@ -83,8 +84,8 @@ export class PhoneNumberInputComponent
         Validators.pattern('^[0-9]{3}$'),
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(3)
-      ]
+        Validators.maxLength(3),
+      ],
     ],
     exchange: [
       '',
@@ -92,8 +93,8 @@ export class PhoneNumberInputComponent
         Validators.pattern('^[0-9]{4}$'),
         Validators.required,
         Validators.minLength(4),
-        Validators.maxLength(4)
-      ]
+        Validators.maxLength(4),
+      ],
     ],
     subscriber: [
       '',
@@ -101,24 +102,24 @@ export class PhoneNumberInputComponent
         Validators.pattern('^[0-9]{4}$'),
         Validators.required,
         Validators.minLength(4),
-        Validators.maxLength(4)
-      ]
-    ]
+        Validators.maxLength(4),
+      ],
+    ],
   });
   stateChanges = new Subject<void>();
   focused = false;
   touched = false;
   controlType = 'app-tel-input';
   id = `app-tel-input-${PhoneNumberInputComponent.nextId++}`;
-  onChange = (_: any): void => { };
-  onTouched = (): void => { };
+  onChange = (_: any): void => {};
+  onTouched = (): void => {};
 
   placeholder010 = '';
   placeholder0000 = '';
 
   get empty(): boolean {
     const {
-      value: { area, exchange, subscriber }
+      value: { area, exchange, subscriber },
     } = this.parts;
 
     return !area && !exchange && !subscriber;
@@ -165,7 +166,7 @@ export class PhoneNumberInputComponent
   get value(): Tel | null {
     if (this.parts.valid) {
       const {
-        value: { area, exchange, subscriber }
+        value: { area, exchange, subscriber },
       } = this.parts;
       return new Tel(area!, exchange!, subscriber!);
     }

@@ -2,19 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { Auth, confirmPasswordReset } from '@angular/fire/auth';
 import {
   AbstractControl,
+  FormBuilder,
   FormControl,
   FormGroup,
   FormGroupDirective,
   NgForm,
-  UntypedFormBuilder,
   ValidationErrors,
-  ValidatorFn
+  ValidatorFn,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -43,7 +43,7 @@ interface ResetPasswordForm {
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResetPasswordComponent implements OnInit {
   isLoading = false;
@@ -56,7 +56,7 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     @Optional() private readonly auth: Auth,
-    private readonly formBuilder: UntypedFormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly _snackbar: MatSnackBar
@@ -64,14 +64,14 @@ export class ResetPasswordComponent implements OnInit {
     this.resetPasswordForm = this.formBuilder.nonNullable.group(
       {
         password: new FormControl<string>('', {
-          nonNullable: true
+          nonNullable: true,
         }),
         passwordRepeat: new FormControl<string>('', {
-          nonNullable: true
-        })
+          nonNullable: true,
+        }),
       },
       {
-        validators: [this.getPasswordValidator()]
+        validators: [this.getPasswordValidator()],
       }
     );
   }
@@ -92,7 +92,7 @@ export class ResetPasswordComponent implements OnInit {
     confirmPasswordReset(this.auth, this.code, password)
       .then(() => {
         this._snackbar.open('reset password complete', 'close', {
-          duration: 3000
+          duration: 3000,
         });
 
         this.router.navigateByUrl('/signin');

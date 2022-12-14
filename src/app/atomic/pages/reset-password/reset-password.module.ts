@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ResetPasswordRoutingModule } from './reset-password-routing.module';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ResetPasswordRoutingModule } from './reset-password-routing.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 
@@ -24,4 +24,4 @@ import { RouterModule } from '@angular/router';
     MatSnackBarModule,
   ],
 })
-export class ResetPasswordModule { }
+export class ResetPasswordModule {}

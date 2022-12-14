@@ -3,17 +3,17 @@ import {
   Component,
   Optional,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   Auth,
   fetchSignInMethodsForEmail,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 interface FindAccount {
   email: FormControl<string>;
@@ -24,7 +24,7 @@ interface FindAccount {
   selector: 'app-find-account',
   templateUrl: './find-account.component.html',
   styleUrls: ['./find-account.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FindAccountComponent {
   @ViewChild('findPasswordDialogTemplate')
@@ -42,8 +42,8 @@ export class FindAccountComponent {
   ) {
     this.findAccountForm = this.fb.nonNullable.group({
       email: new FormControl<string>('', {
-        nonNullable: true
-      })
+        nonNullable: true,
+      }),
     });
   }
 
@@ -54,7 +54,7 @@ export class FindAccountComponent {
         this.showFindPasswordDialog(email);
       } else {
         this._snackbar.open('account not found', 'close', {
-          duration: 3000
+          duration: 3000,
         });
       }
     });

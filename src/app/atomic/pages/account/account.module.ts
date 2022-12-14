@@ -1,19 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccountComponent } from './account/account.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AccountRoutingModule } from './account-routing.module';
+import { AccountComponent } from './account/account.component';
 
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { PhoneNumberInputModule } from '../../atoms/phone-number-input/phone-number-input.module';
 import { FileDragDropModule } from 'src/app/directives/file-drag-drop/file-drag-drop.module';
+import { PhoneNumberInputModule } from '../../atoms/phone-number-input/phone-number-input.module';
 import { ChangePasswordModule } from '../../templates/change-password/change-password.module';
 
 @NgModule({
@@ -34,7 +34,7 @@ import { ChangePasswordModule } from '../../templates/change-password/change-pas
     MatDialogModule,
     MatIconModule,
     MatDialogModule,
-    MatProgressSpinnerModule
-  ]
+    MatProgressSpinnerModule,
+  ],
 })
-export class AccountModule { }
+export class AccountModule {}

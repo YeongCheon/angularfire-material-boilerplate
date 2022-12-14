@@ -4,32 +4,24 @@ import {
   Component,
   ElementRef,
   Optional,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormControl,
-  FormGroupDirective,
-  NgForm,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import {
   Auth,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
   AuthError,
-  AuthErrorCodes
+  AuthErrorCodes,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
 } from '@angular/fire/auth';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   browserLocalPersistence,
   FacebookAuthProvider,
   setPersistence,
-  TwitterAuthProvider
+  TwitterAuthProvider,
 } from '@firebase/auth';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MyErrorStateMatcher } from 'src/app/util/password-error-state-matcher';
 
@@ -43,7 +35,7 @@ interface SignInFormGroup {
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignInComponent {
   googleProvider = new GoogleAuthProvider();
@@ -60,18 +52,18 @@ export class SignInComponent {
 
   constructor(
     @Optional() private auth: Auth,
-    private readonly formBuilder: UntypedFormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly _snackbar: MatSnackBar,
     private readonly cdRef: ChangeDetectorRef
   ) {
     this.signInForm = this.formBuilder.nonNullable.group({
       email: new FormControl<string>('', {
-        nonNullable: true
+        nonNullable: true,
       }),
       password: new FormControl<string>('', {
-        nonNullable: true
-      })
+        nonNullable: true,
+      }),
     });
   }
 

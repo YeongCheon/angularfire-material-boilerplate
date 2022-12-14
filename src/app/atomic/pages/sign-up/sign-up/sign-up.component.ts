@@ -6,7 +6,7 @@ import {
   FormGroup,
   UntypedFormBuilder,
   ValidationErrors,
-  ValidatorFn
+  ValidatorFn,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ interface SignUpForm {
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent {
   isLoading = false;
@@ -40,17 +40,17 @@ export class SignUpComponent {
     this.signUpForm = this.formBuilder.nonNullable.group(
       {
         email: new FormControl<string>('', {
-          nonNullable: true
+          nonNullable: true,
         }),
         password: new FormControl<string>('', {
-          nonNullable: true
+          nonNullable: true,
         }),
         passwordRepeat: new FormControl<string>('', {
-          nonNullable: true
-        })
+          nonNullable: true,
+        }),
       },
       {
-        validators: [this.getPasswordValidator()]
+        validators: [this.getPasswordValidator()],
       }
     );
   }
